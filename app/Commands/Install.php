@@ -3,9 +3,11 @@
 namespace App\Commands;
 
 use App\Packages\Spatie\LaravelRay;
+use Dotenv\Dotenv;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
@@ -20,9 +22,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'install
-                            {name : The name of the application}
-                            {--options : The options to setup the package}';
+    protected $signature = 'install';
 
     /**
      * The description of the command.
@@ -38,24 +38,44 @@ class Install extends Command
      */
     public function handle()
     {
+        Storage::put('test.json', 'test');
+        dd(getcwd());
+        $option = $this->menu('Laravel Installer Plus', [
+            'Create a new application',
+            'Configure your application defaults',
+            'Settings',
+        ])
+        ->setForegroundColour('green')
+        ->setBackgroundColour('black')
+        ->open();
+
+        $this->info("You have chosen the option number #$option");
+
+
         $this->name = $this->argument('name');
-        $this->installLocation = '~/Websites/';
+        $this->installLocation = env(getcwd());
         $this->applicationLocation = $this->installLocation . $this->name . '/';
 
+    //     dd(is_dir($this->installLocation));
 
-        $this->preInstallCommands();
-        $this->installLaravel();
-        $this->postInstallCommands();
+    //     if (! is_dir($this->installLocation)) {
+    //         return $this->error("Install location '{$this->installLocation}' does not exist.");
+    //     }
 
 
-        $packages = config('packages.composer');
-        foreach ($packages as $key => $package) {
-            $this->task("Install Composer Package", function () use ($package) {
-                $this->installPackage($package);
+    //     $this->preInstallCommands();
+    //     $this->installLaravel();
+    //     $this->postInstallCommands();
 
-                return true;
-            });
-        }
+
+    //     $packages = config('packages.composer');
+    //     foreach ($packages as $key => $package) {
+    //         $this->task("Install Composer Package", function () use ($package) {
+    //             $this->installPackage($package);
+
+    //             return true;
+    //         });
+    //     }
     }
 
     /**

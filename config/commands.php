@@ -1,5 +1,7 @@
 <?php
 
+use App\Commands\Install;
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'default' => NunoMaduro\LaravelConsoleSummary\SummaryCommand::class,
+    'default' => Install::class,
 
     /*
     |--------------------------------------------------------------------------
