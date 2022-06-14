@@ -38,6 +38,7 @@ class Install extends Command
      */
     public function handle()
     {
+        dd('TEST');
         Storage::put('test.json', 'test');
         dd(getcwd());
         $option = $this->menu('Laravel Installer Plus', [
