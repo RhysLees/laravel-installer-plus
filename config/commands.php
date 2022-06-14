@@ -1,6 +1,6 @@
 <?php
 
-use App\Commands\Install;
+use App\Commands\DefaultCommand;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => Install::class,
+    'default' => DefaultCommand::class,
 
     /*
     |--------------------------------------------------------------------------

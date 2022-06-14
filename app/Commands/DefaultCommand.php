@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
-class Install extends Command
+class DefaultCommand extends Command
 {
     public $name;
     public $installLocation;
@@ -22,7 +22,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'install';
+    protected $signature = 'new {name? : The name of the application}';
 
     /**
      * The description of the command.
@@ -38,45 +38,59 @@ class Install extends Command
      */
     public function handle()
     {
-        dd('TESTING');
-        Storage::put('test.json', 'test');
-        dd(getcwd());
+        if ($this->argument('name')) {
+            $this->createApplication();
+            return $this->info('Enjoy!');
+        }
+
         $option = $this->menu('Laravel Installer Plus', [
             'Create a new application',
-            'Configure your application defaults',
             'Settings',
-        ])
-        ->setForegroundColour('green')
+        ])->setForegroundColour('green')
         ->setBackgroundColour('black')
         ->open();
 
-        $this->info("You have chosen the option number #$option");
+        if ($option == 0) {
+            $this->showCreate();
+        } elseif ($option == 1) {
+            $this->showSettings();
+        }
 
+        return true;
+    }
 
-        $this->name = $this->argument('name');
-        $this->installLocation = env(getcwd());
-        $this->applicationLocation = $this->installLocation . $this->name . '/';
+    public function showSettings()
+    {
+        // $option = $this->menu('Laravel Installer Plus Settings', [
+        //     'Show Config File',
+        // ])->setForegroundColour('green')
+        // ->setBackgroundColour('black')
+        // ->open();
 
-    //     dd(is_dir($this->installLocation));
+        // if ($option == 0) {
+        //     $this->input();
+        // }
 
-    //     if (! is_dir($this->installLocation)) {
-    //         return $this->error("Install location '{$this->installLocation}' does not exist.");
-    //     }
+        $this->info('Laravel Installer Plus Settings:');
+        $this->info(config('filesystems.disks.local.root'));
+        return true;
+    }
 
+    /**
+     * Create a new application.
+     *
+     * @return void
+     */
+    public function createApplication()
+    {
+        if (! Storage::exists('config.json')) {
+            $this->info("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
+            Storage::put('config.json', json_encode([
+                'name' => $this->argument('name'),
+            ]));
+        }
 
-    //     $this->preInstallCommands();
-    //     $this->installLaravel();
-    //     $this->postInstallCommands();
-
-
-    //     $packages = config('packages.composer');
-    //     foreach ($packages as $key => $package) {
-    //         $this->task("Install Composer Package", function () use ($package) {
-    //             $this->installPackage($package);
-
-    //             return true;
-    //         });
-    //     }
+        $this->info("Creating a new application in: " . config('filesystems.disks.local.root'));
     }
 
     /**
