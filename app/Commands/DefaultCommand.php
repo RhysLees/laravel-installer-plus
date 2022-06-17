@@ -3,27 +3,22 @@
 namespace App\Commands;
 
 use App\Helpers\Files;
-use App\Packages\Spatie\LaravelRay;
-use Dotenv\Dotenv;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 class DefaultCommand extends Command
 {
-    public $config;
+    public $configFile;
+    public $name;
 
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'new { name? : The name of the application
-                                (required if no directory is given) }
-        { directory? : The directory to create the application in }';
+    protected $signature = 'new
+                            {name : Name of the application}';
+
 
     /**
      * The description of the command.
@@ -39,15 +34,13 @@ class DefaultCommand extends Command
      */
     public function handle()
     {
+        $this->name = $this->argument('name');
         $this->getConfiguration();
 
-        if ($this->config['install-location'] === '~/Websites/') {
-            $this->error('The install location is not set. Please set it in the config file.');
-            return;
-        }
-        dd($this->config);
+        $this->checkConfiguration();
 
-        $this->createApplication();
+        //Check name was given
+        // $this->createApplication();
 
         return true;
     }
@@ -60,18 +53,55 @@ class DefaultCommand extends Command
     public function getConfiguration()
     {
         if (! Storage::exists('config.json')) {
-            $this->info("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
+            $this->error("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
 
             Files::createConfigFile();
             Files::createHelpFile();
 
-            return $this->info('Please edit the new config file to ensure they are to your preference then run the command again.');
-            abort();
-        }else{
+            $this->info('Please edit the new config file to ensure they are to your preference then run the command again.');
+            exit;
+        } else {
             $config = Storage::get('config.json');
-            $this->config = json_decode($config, true);
+            $this->configFile = json_decode($config, true);
+        }
+    }
+
+    /**
+     * Check configuration.
+     *
+     * @return void
+     */
+    public function checkConfiguration()
+    {
+        if (! $this->configFile) {
+            $this->error('The config file is empty. Please run `laravel-installer-plus init --force` to set up.');
+            exit;
         }
 
+        if ($this->configFile['install-location'] === '') {
+            $this->error('The config file is missing the install-location. Please set an install path.');
+            exit;
+        }
+
+        if (
+            ! $this->configFile['packages-to-install'] ||
+            ! $this->configFile['packages-to-install']['composer'] ||
+            ! $this->configFile['packages-to-install']['npm']
+        ) {
+            $this->error('Either packages-to-install, packages-to-install->composer or packages-to-install->npm is missing from the config.');
+            exit;
+        }
+
+        if (
+            ! $this->configFile['packages'] ||
+            ! $this->configFile['packages']['composer'] ||
+            ! $this->configFile['packages']['npm']
+        ) {
+            $this->error('Either packages, packages->composer or packages->npm is missing from the config.');
+            exit;
+        }
+
+        $this->info('Configuration check passed.');
     }
 
     /**
