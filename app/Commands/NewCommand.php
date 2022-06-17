@@ -8,7 +8,7 @@ use App\Traits\Packages;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
-class DefaultCommand extends Command
+class NewCommand extends Command
 {
     use Configuration;
     use Packages;
@@ -72,9 +72,7 @@ class DefaultCommand extends Command
         $this->runCommands('composer', 'post-package');
         $this->runCommands('npm', 'post-package');
 
-        // $this->createApplication();
-
-        return true;
+        return $this->info("Application created successfully.");
     }
 
     /**
@@ -85,7 +83,7 @@ class DefaultCommand extends Command
     public function installLaravel()
     {
         $this->task("Install application in {$this->config['install-location']}", function () {
-            exec('laravel new ' . $this->name, $output, $result);
+            exec('cd ' . $this->config['install-location'] .  ' && laravel new ' . $this->name, $output, $result);
 
             return true;
         });
