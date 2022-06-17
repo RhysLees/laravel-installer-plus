@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Helpers\Files;
 use App\Packages\Spatie\LaravelRay;
 use Dotenv\Dotenv;
 use Illuminate\Console\Scheduling\Schedule;
@@ -13,16 +14,16 @@ use LaravelZero\Framework\Commands\Command;
 
 class DefaultCommand extends Command
 {
-    public $name;
-    public $installLocation;
-    public $applicationLocation;
+    public $config;
 
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'new {name? : The name of the application}';
+    protected $signature = 'new { name? : The name of the application
+                                (required if no directory is given) }
+        { directory? : The directory to create the application in }';
 
     /**
      * The description of the command.
@@ -38,42 +39,39 @@ class DefaultCommand extends Command
      */
     public function handle()
     {
-        if ($this->argument('name')) {
-            $this->createApplication();
-            return $this->info('Enjoy!');
-        }
+        $this->getConfiguration();
 
-        $option = $this->menu('Laravel Installer Plus', [
-            'Create a new application',
-            'Settings',
-        ])->setForegroundColour('green')
-        ->setBackgroundColour('black')
-        ->open();
-
-        if ($option == 0) {
-            $this->showCreate();
-        } elseif ($option == 1) {
-            $this->showSettings();
+        if ($this->config['install-location'] === '~/Websites/') {
+            $this->error('The install location is not set. Please set it in the config file.');
+            return;
         }
+        dd($this->config);
+
+        $this->createApplication();
 
         return true;
     }
 
-    public function showSettings()
+    /**
+     * Get the configuration.
+     *
+     * @return void
+     */
+    public function getConfiguration()
     {
-        // $option = $this->menu('Laravel Installer Plus Settings', [
-        //     'Show Config File',
-        // ])->setForegroundColour('green')
-        // ->setBackgroundColour('black')
-        // ->open();
+        if (! Storage::exists('config.json')) {
+            $this->info("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
 
-        // if ($option == 0) {
-        //     $this->input();
-        // }
+            Files::createConfigFile();
+            Files::createHelpFile();
 
-        $this->info('Laravel Installer Plus Settings:');
-        $this->info(config('filesystems.disks.local.root'));
-        return true;
+            return $this->info('Please edit the new config file to ensure they are to your preference then run the command again.');
+            abort();
+        }else{
+            $config = Storage::get('config.json');
+            $this->config = json_decode($config, true);
+        }
+
     }
 
     /**
@@ -83,13 +81,6 @@ class DefaultCommand extends Command
      */
     public function createApplication()
     {
-        if (! Storage::exists('config.json')) {
-            $this->info("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
-            Storage::put('config.json', json_encode([
-                'name' => $this->argument('name'),
-            ]));
-        }
-
         $this->info("Creating a new application in: " . config('filesystems.disks.local.root'));
     }
 
@@ -177,4 +168,22 @@ class DefaultCommand extends Command
             return true;
         });
     }
+
+
+    // public function showSettings()
+    // {
+    //     $option = $this->menu('Laravel Installer Plus Settings', [
+    //         'Show Config File',
+    //     ])->setForegroundColour('green')
+    //     ->setBackgroundColour('black')
+    //     ->open();
+
+    //     if ($option == 0) {
+    //         $this->input();
+    //     }
+
+    //     $this->info('Laravel Installer Plus Settings:');
+    //     $this->info(config('filesystems.disks.local.root'));
+    //     return true;
+    // }
 }
