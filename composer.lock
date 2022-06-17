@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d772dcd1f647bd46dd52b4188420ff22",
+    "content-hash": "d780c0c147698d8f53cca8886cc76800",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -893,74 +893,6 @@
             "time": "2022-04-28T13:05:07+00:00"
         },
         {
-            "name": "illuminate/database",
-            "version": "v9.17.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/illuminate/database.git",
-                "reference": "3ecfa322a958b03197560964afd8d7fb201d667b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/3ecfa322a958b03197560964afd8d7fb201d667b",
-                "reference": "3ecfa322a958b03197560964afd8d7fb201d667b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "illuminate/collections": "^9.0",
-                "illuminate/container": "^9.0",
-                "illuminate/contracts": "^9.0",
-                "illuminate/macroable": "^9.0",
-                "illuminate/support": "^9.0",
-                "php": "^8.0.2",
-                "symfony/console": "^6.0"
-            },
-            "suggest": {
-                "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.13.3|^3.1.4).",
-                "fakerphp/faker": "Required to use the eloquent factory builder (^1.9.1).",
-                "illuminate/console": "Required to use the database commands (^9.0).",
-                "illuminate/events": "Required to use the observers with Eloquent (^9.0).",
-                "illuminate/filesystem": "Required to use the migrations (^9.0).",
-                "illuminate/pagination": "Required to paginate the result set (^9.0).",
-                "symfony/finder": "Required to use Eloquent model factories (^6.0)."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "9.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Illuminate\\Database\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "The Illuminate Database package.",
-            "homepage": "https://laravel.com",
-            "keywords": [
-                "database",
-                "laravel",
-                "orm",
-                "sql"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/framework/issues",
-                "source": "https://github.com/laravel/framework"
-            },
-            "time": "2022-06-07T14:46:41+00:00"
-        },
-        {
             "name": "illuminate/events",
             "version": "v9.17.0",
             "source": {
@@ -1362,16 +1294,16 @@
         },
         {
             "name": "laravel-zero/foundation",
-            "version": "v9.13.0",
+            "version": "v9.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-zero/foundation.git",
-                "reference": "dfe43bce2e1c935f9c0a0e2d74d00bcb7049ceda"
+                "reference": "2de3d311b3165ecdc4d961cde53ff74ff66f8224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/foundation/zipball/dfe43bce2e1c935f9c0a0e2d74d00bcb7049ceda",
-                "reference": "dfe43bce2e1c935f9c0a0e2d74d00bcb7049ceda",
+                "url": "https://api.github.com/repos/laravel-zero/foundation/zipball/2de3d311b3165ecdc4d961cde53ff74ff66f8224",
+                "reference": "2de3d311b3165ecdc4d961cde53ff74ff66f8224",
                 "shasum": ""
             },
             "require": {
@@ -1401,9 +1333,9 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel-zero/foundation/tree/v9.13.0"
+                "source": "https://github.com/laravel-zero/foundation/tree/v9.17.0"
             },
-            "time": "2022-05-18T15:59:33+00:00"
+            "time": "2022-06-16T10:32:54+00:00"
         },
         {
             "name": "laravel-zero/framework",
@@ -2161,16 +2093,16 @@
         },
         {
             "name": "nunomaduro/termwind",
-            "version": "v1.10.1",
+            "version": "v1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/termwind.git",
-                "reference": "b63e00e448af1d418cbb07a683187685a97ca0e6"
+                "reference": "8ae79be19eddeac25e6bf5b9e1696de87d4f1556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/b63e00e448af1d418cbb07a683187685a97ca0e6",
-                "reference": "b63e00e448af1d418cbb07a683187685a97ca0e6",
+                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/8ae79be19eddeac25e6bf5b9e1696de87d4f1556",
+                "reference": "8ae79be19eddeac25e6bf5b9e1696de87d4f1556",
                 "shasum": ""
             },
             "require": {
@@ -2227,7 +2159,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/termwind/issues",
-                "source": "https://github.com/nunomaduro/termwind/tree/v1.10.1"
+                "source": "https://github.com/nunomaduro/termwind/tree/v1.11.1"
             },
             "funding": [
                 {
@@ -2243,7 +2175,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-12T01:36:04+00:00"
+            "time": "2022-06-17T12:26:22+00:00"
         },
         {
             "name": "php-school/cli-menu",
