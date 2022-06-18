@@ -18,7 +18,7 @@
 1. Download the latest released phar file `laravel-installer-plus` from [GitHub Releases](https://github.com/RhysLees/laravel-installer-plus/releases/latest/download/laravel-installer-plus)
 2. Open a terminal where you downloaded and run the following command
 ```bash
-mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
+sudo mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 ```
 
 # Documentation
