@@ -90,28 +90,28 @@ mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 "commands": {
     "composer": {
         "pre-install": [
-            'sudo composer self-update',
-            'composer cache-clear
+            "sudo composer self-update",
+            "composer cache-clear"
         ],
         "post-install": [
-            'php artisan migrate:fresh --seed',
-            'valet restart',
-            'valet link',
-            'valet secure',
+            "php artisan migrate:fresh --seed",
+            "valet restart",
+            "valet link",
+            "valet secure",
         ],
         "pre-package": [
-            'composer update',
+            "composer update",
         ],
         "post-package": [
-            'composer dump-autoload',
+            "composer dump-autoload",
         ],
     },
     "npm": {
         "pre-install": [
-            'npm install -g npm@latest',
+            "npm install -g npm@latest",
         ],
         "post-package": [
-            'npm run dev',
+            "npm run dev",
         ],
     },
 }
