@@ -20,6 +20,11 @@
 ```bash
 sudo mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 ```
+3. Run the following command to complete installation and create a default config file (location: `~/.laravel-installer-plus`)
+```bash
+laravel-installer-plus install
+```
+
 
 # Documentation
 
