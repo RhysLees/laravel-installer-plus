@@ -25,7 +25,10 @@
 
 ```bash
 $ composer global require rhyslees/laravel-installer-plus
+$ laravel-installer-plus install
 ```
+
+Your configuration is stored in `~/.laravel-installer-plus/config.json`
 
 ---
 
