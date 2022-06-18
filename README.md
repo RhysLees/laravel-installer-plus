@@ -6,13 +6,20 @@
 
 #### This is a **community project** and not an official Laravel one
 
-- This is a helper tool for the installation of laravel.
+- This is a cli tool for the installation of laravel.
 - It will install the laravel application and the packages you specify.
 
 > Built with [Laravel Zero](https://laravel-zero.com/).
 
+---
+# Requirements
 
-------
+> Requires [Laravel Installer](https://laravel.com/docs/#the-laravel-installer)
+> Requires [Composer](https://getcomposer.org/download).
+> Requires [PHP](https://www.php.net/) 8.0 or higher.
+
+
+---
 
 # Installation
 
@@ -20,13 +27,18 @@
 $ composer global require rhyslees/laravel-installer-plus
 ```
 
+---
 
 # Documentation
+
+---
 
 ## Install Location
 - The location where the laravel application will be installed.
 - The default is `~/Websites/`
 - You can change this in the config.json file.
+
+---
 
 ## Packages to install
 - The packages that will be installed.
@@ -48,6 +60,8 @@ $ composer global require rhyslees/laravel-installer-plus
     ]
 },
 ```
+
+---
 
 ## Packages
 - The package that can be installed.
@@ -81,6 +95,8 @@ $ composer global require rhyslees/laravel-installer-plus
     ]
 },
 ```
+
+---
 
 ## Commands
 - The commands are executed in the order you specify.
@@ -134,6 +150,8 @@ The commands that will be run before the installation of packages.
 ### Post Package
 The commands that will be run after the installation of packages.
 
-## License
+---
+
+# License
 
 Laravel Installer Plus is an open-source software licensed under the MIT license.
