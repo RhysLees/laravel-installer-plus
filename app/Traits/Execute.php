@@ -8,11 +8,19 @@ trait Execute
      * Execute a console command.
      *
      * @param string $command
+     * @param bool $location
+     *
      * @return mixed
      */
-    public function executeCommand($command)
+    public function executeCommand($command, $location = false)
     {
-        exec('cd ' . $this->applicationLocation .  ' && ' . $command, $output, $result);
+        $path = $this->applicationLocation;
+
+        if ($location) {
+            $path = $this->config['install-location'];
+        }
+
+        exec('cd ' . $path .  ' && ' . $command, $output, $result);
         return $result;
     }
 
@@ -20,10 +28,12 @@ trait Execute
      * Execute multiple commands
      *
      * @param array $commands
+     * @param bool $location true=install-location | false=application-location
+     *
      * @return void
      */
-    public function executeCommands($commands)
+    public function executeCommands($commands, $location = false)
     {
-        $result = $this->executeCommand(implode(' && ', $commands));
+        $result = $this->executeCommand(implode(' && ', $commands), $location);
     }
 }

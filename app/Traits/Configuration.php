@@ -42,26 +42,25 @@ trait Configuration
         }
 
         if (
-            ! $this->config['install-location'] ||
-            $this->config['install-location'] === ''
+            ! $this->config['install-location']
         ) {
             $this->error('The config file is missing the install-location. Please set an install path.');
             exit;
         }
 
         if (
-            ! $this->config['packages-to-install'] ||
-            ! $this->config['packages-to-install']['composer'] ||
-            ! $this->config['packages-to-install']['npm']
+            ! key_exists('packages-to-install', $this->config) ||
+            ! key_exists('composer', $this->config['packages-to-install']) ||
+            ! key_exists('npm', $this->config['packages-to-install'])
         ) {
             $this->error('Either packages-to-install, packages-to-install->composer or packages-to-install->npm is missing from the config.');
             exit;
         }
 
         if (
-            ! $this->config['packages'] ||
-            ! $this->config['packages']['composer'] ||
-            ! $this->config['packages']['npm']
+            ! key_exists('packages', $this->config) ||
+            ! key_exists('composer', $this->config['packages']) ||
+            ! key_exists('npm', $this->config['packages'])
         ) {
             $this->error('Either packages, packages->composer or packages->npm is missing from the config.');
             exit;

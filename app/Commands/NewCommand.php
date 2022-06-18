@@ -120,7 +120,12 @@ class NewCommand extends Command
                         ->replace('-', ' ')->title() . ' Commands ...';
 
             $this->task($title, function () use ($manager, $method) {
-                $this->executeCommands($this->config['commands'][$manager][$method]);
+                $location = false;
+                if ($method == 'pre-install') {
+                    $location = true;
+                }
+
+                $this->executeCommands($this->config['commands'][$manager][$method], $location);
 
                 return true;
             });

@@ -85,6 +85,8 @@ mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 - The commands are executed in the order you specify.
 - You can execute commands with composer and npm.
 
+> NOTE: If you wish to run sudo commands you will be prompted for your password at each command step i.e pre-install, post-install, pre-package, post-package.
+
 ### Commands Example
 ```json
 "commands": {
@@ -119,6 +121,7 @@ mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 
 ### Pre Install
 The commands that will be run before the installation of laravel.
+> IMPORTANT: Pre Install commands are run in the install-location not the application location.
 
 
 ### Post Install
