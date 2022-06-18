@@ -33,6 +33,11 @@ trait Packages
             exit;
         }
 
+        $this->packages = Collection::wrap([
+            'composer' => $this->packagesComposer,
+            'npm' => $this->packagesNpm,
+        ]);
+
         $this->info('Packages collected.');
     }
 }

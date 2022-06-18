@@ -66,7 +66,8 @@ class NewCommand extends Command
         $this->runCommands('composer', 'pre-package');
         $this->runCommands('npm', 'pre-package');
 
-        $this->installPackages();
+        $this->installPackages('composer');
+        $this->installPackages('npm');
 
         // Post Package Commands
         $this->runCommands('composer', 'post-package');
@@ -92,13 +93,14 @@ class NewCommand extends Command
     /**
      * Install Package.
      *
+     *
      * @return void
      */
-    public function installPackages()
+    public function installPackages($manager)
     {
-        if (count($this->config['packages-to-install']['composer']) > 0) {
-            $this->info("Installing composer packages...");
-            $this->packagesComposer->each(function ($package) {
+        if (count($this->config['packages-to-install'][$manager]) > 0) {
+            $this->info("Installing " . Str::title($manager) . " packages...");
+            $this->packages[$manager]->each(function ($package) {
                 $this->task("Install {$package['name']}", function () use ($package) {
                     $this->executeCommands($package['commands']);
 

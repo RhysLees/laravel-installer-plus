@@ -38,6 +38,7 @@ laravel-installer-plus install
 - The `composer` and `npm`.
 - You can change this in the config.json file.
 - You need add packages to the `packages` array.
+- Specify the key of the package you want to install
 
 ### Packages to install Example
 ```json
