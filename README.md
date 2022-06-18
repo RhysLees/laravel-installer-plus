@@ -15,14 +15,9 @@
 ------
 
 # Installation
-1. Download the latest released phar file `laravel-installer-plus` from [GitHub Releases](https://github.com/RhysLees/laravel-installer-plus/releases/latest/download/laravel-installer-plus)
-2. Open a terminal where you downloaded and run the following command
+
 ```bash
-sudo mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
-```
-3. Run the following command to complete installation and create a default config file (location: `~/.laravel-installer-plus`)
-```bash
-laravel-installer-plus install
+$ composer global require rhyslees/laravel-installer-plus
 ```
 
 
