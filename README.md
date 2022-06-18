@@ -15,8 +15,11 @@
 ------
 
 # Installation
+1. Download the latest release from [GitHub Releases](https://github.com/RhysLees/laravel-installer-plus/releases/latest)
+2. Unzip the file
+3. Run the following command:
 ```bash
-
+mv laravel-installer-plus /usr/local/bin/laravel-installer-plus
 ```
 
 # Documentation

@@ -19,7 +19,6 @@ trait Configuration
             $this->error("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
 
             Files::createConfigFile();
-            Files::createHelpFile();
 
             $this->info('Please edit the new config file to ensure they are to your preference then run the command again.');
             exit;
