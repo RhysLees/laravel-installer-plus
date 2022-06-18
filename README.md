@@ -1,6 +1,6 @@
 # Laravel Installer Plus
 
-<p align="center">
+<p>
   <a href="https://packagist.org/packages/rhyslees/laravel-installer-plus"><img src="https://img.shields.io/packagist/l/rhyslees/laravel-installer-plus.svg" alt="License"></a>
 </p>
 
