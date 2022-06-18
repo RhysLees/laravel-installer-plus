@@ -1,36 +1,133 @@
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+# Laravel Installer Plus
 
 <p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://img.shields.io/github/workflow/status/laravel-zero/framework/Tests.svg" alt="Build Status"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
+  <a href="https://packagist.org/packages/rhyslees/laravel-installer-plus"><img src="https://img.shields.io/packagist/l/rhyslees/laravel-installer-plus.svg" alt="License"></a>
 </p>
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+#### This is a **community project** and not an official Laravel one
 
-Laravel Zero was created by [Nuno Maduro](https://github.com/nunomaduro) and [Owen Voke](https://github.com/owenvoke), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+- This is a helper tool for the installation of laravel.
+- It will install the laravel application and the packages you specify.
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+> Built with [Laravel Zero](https://laravel-zero.com/).
+
 
 ------
 
-## Documentation
+# Installation
+```bash
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+```
 
-## Support the development
-**Do you like this project? Support it by donating**
+# Documentation
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+## Install Location
+- The location where the laravel application will be installed.
+- The default is `~/Websites/`
+- You can change this in the config.json file.
+
+## Packages to install
+- The packages that will be installed.
+- The `composer` and `npm`.
+- You can change this in the config.json file.
+- You need add packages to the `packages` array.
+
+### Packages to install Example
+```json
+"packages-to-install": {
+    "composer": [
+        "spatie-laravel-ray",
+        "barryvdh-laravel-debugbar",
+    ],
+    "npm": [
+        "laravel-echo",
+        "pusher-js"
+    ]
+},
+```
+
+## Packages
+- The package that can be installed.
+- You can change this in the config.json file.
+- The packages are installed in the order you specify.
+- You can install packages with both composer and npm.
+
+### Package Example
+
+```json
+"packages": {
+    "composer": [
+        {
+            "name": "Laravel Ray",
+            "key": "spatie-laravel-ray",
+            "commands": [
+                "composer require spatie/laravel-ray",
+                "php artisan ray:publish-config"
+            ]
+        }
+    ],
+    "npm": [
+        {
+            "name": "Laravel Echo",
+            "key": "echo",
+            "commands": [
+                "npm i laravel-echo",
+            ],
+
+        }
+    ]
+},
+```
+
+## Commands
+- The commands are executed in the order you specify.
+- You can execute commands with composer and npm.
+
+### Commands Example
+```json
+"commands": {
+    "composer": {
+        "pre-install": [
+            'sudo composer self-update',
+            'composer cache-clear
+        ],
+        "post-install": [
+            'php artisan migrate:fresh --seed',
+            'valet restart',
+            'valet link',
+            'valet secure',
+        ],
+        "pre-package": [
+            'composer update',
+        ],
+        "post-package": [
+            'composer dump-autoload',
+        ],
+    },
+    "npm": {
+        "pre-install": [
+            'npm install -g npm@latest',
+        ],
+        "post-package": [
+            'npm run dev',
+        ],
+    },
+}
+```
+
+### Pre Install
+The commands that will be run before the installation of laravel.
+
+
+### Post Install
+The commands that will be run after the installation of laravel.
+
+### Pre Package
+The commands that will be run before the installation of packages.
+
+### Post Package
+The commands that will be run after the installation of packages.
 
 ## License
 
-Laravel Zero is an open-source software licensed under the MIT license.
+Laravel Installer Plus is an open-source software licensed under the MIT license.

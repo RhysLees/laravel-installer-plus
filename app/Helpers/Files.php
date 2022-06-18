@@ -93,8 +93,8 @@ class Files
         Storage::put('help.md', <<<EOT
             # Laravel Installer Plus
             =====================================================================
-            .This is a helper tool for the installation of laravel.
-            .It will install the laravel application and the packages you specify.
+            - This is a helper tool for the installation of laravel.
+            - It will install the laravel application and the packages you specify.
 
             ## Install Location
             - The location where the laravel application will be installed.
