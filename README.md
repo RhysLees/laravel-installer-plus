@@ -14,9 +14,9 @@
 ---
 # Requirements
 
-> Requires [Laravel Installer](https://laravel.com/docs/#the-laravel-installer)
-> Requires [Composer](https://getcomposer.org/download).
-> Requires [PHP](https://www.php.net/) 8.0 or higher.
+- [Laravel Installer](https://laravel.com/docs/#the-laravel-installer)
+- [Composer](https://getcomposer.org/download).
+- [PHP](https://www.php.net/) 8.0 or higher.
 
 
 ---
