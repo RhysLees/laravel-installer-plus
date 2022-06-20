@@ -42,8 +42,6 @@ class NewCommand extends Command
      */
     public function handle()
     {
-        $this->name = $this->argument('name');
-
         $this->getConfiguration();
         $this->checkConfiguration();
 

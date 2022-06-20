@@ -25,6 +25,8 @@ trait Configuration
         } else {
             $config = Storage::get('config.json');
             $this->config = json_decode($config, true);
+
+            $this->name = $this->argument('name');
             $this->applicationLocation = $this->config['install-location'] . $this->name;
         }
     }
@@ -41,9 +43,7 @@ trait Configuration
             exit;
         }
 
-        if (
-            ! $this->config['install-location']
-        ) {
+        if (! $this->config['install-location']) {
             $this->error('The config file is missing the install-location. Please set an install path.');
             exit;
         }
@@ -85,17 +85,13 @@ trait Configuration
         }
 
         // Check to see if user is trying to install more composer packages but has asked for more than that is set.
-        if (
-            count($this->config['packages-to-install']['composer']) > count($this->config['packages']['composer'])
-        ) {
+        if (count($this->config['packages-to-install']['composer']) > count($this->config['packages']['composer'])) {
             $this->error('You are trying to install more composer packages than what is set in the config.');
             exit;
         }
 
         // Check to see if user is trying to install more npm packages but has asked for more than that is set.
-        if (
-            count($this->config['packages-to-install']['npm']) > count($this->config['packages']['npm'])
-        ) {
+        if (count($this->config['packages-to-install']['npm']) > count($this->config['packages']['npm'])) {
             $this->error('You are trying to install more npm packages than what is set in the config.');
             exit;
         }
