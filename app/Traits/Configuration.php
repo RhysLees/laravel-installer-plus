@@ -89,7 +89,7 @@ trait Configuration
     public function checkConfiguration()
     {
         if (! $this->config) {
-            $this->error('The config file is empty. Please run `laravel-installer-plus init --force` to set up.');
+            $this->error('The config file is empty. Please run `laravel-installer-plus install` to set up.');
             exit;
         }
 
