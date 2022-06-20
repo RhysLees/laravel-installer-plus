@@ -8,8 +8,10 @@ class Files
 {
     public static function createConfigFile()
     {
-        Storage::put('config.json', json_encode([
-            'install-location' => '~/Websites/',
+        Storage::disk('config')->put('config.json', json_encode([
+            'install-location' => '',
+            'laravel-options' => [
+            ],
             'packages-to-install' => [
                 'composer' => [
                     'spatie-laravel-ray',

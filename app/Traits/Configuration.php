@@ -3,8 +3,9 @@
 namespace App\Traits;
 
 use App\Helpers\Files;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use LaravelZero\Framework\Commands\Command;
+use Illuminate\Support\Str;
 
 trait Configuration
 {
@@ -15,20 +16,69 @@ trait Configuration
      */
     public function getConfiguration()
     {
-        if (! Storage::exists('config.json')) {
-            $this->error("Config file not found. Creating a new one in: " . config('filesystems.disks.local.root'));
+        if (! Storage::disk('config')->exists('config.json')) {
+            $this->error("Config file not found. Creating a new one in: " . config('filesystems.disks.config.root'));
 
             Files::createConfigFile();
 
             $this->info('Please edit the new config file to ensure they are to your preference then run the command again.');
             exit;
         } else {
-            $config = Storage::get('config.json');
+            $config = Storage::disk('config')->get('config.json');
             $this->config = json_decode($config, true);
-
-            $this->name = $this->argument('name');
-            $this->applicationLocation = $this->config['install-location'] . $this->name;
         }
+    }
+
+    public function setup()
+    {
+        // Set name
+        $this->name = $this->argument('name');
+
+        // Set Locations
+        $this->installLocation = $this->config['install-location'] ?  config('filesystems.disks.local.root') . $this->config['install-location'] : getcwd();
+        $this->applicationLocation = $this->installLocation . (Str::endsWith($this->installLocation, '/') ? '' : '/') . $this->name;
+
+        // Set Laravel Options
+        $selected = [];
+
+        // Collect the options from the config file.
+        $defaultOptions = Collection::wrap($this->config['laravel-options'] ?: []);
+
+        // Collect the options and filter any that are false, null or empty.
+        $options = Collection::wrap([
+            '--dev' => $this->option('dev'),
+            '--git' => $this->option('git'),
+            '--branch' => $this->option('git') || $this->option('github') ? $this->option('branch') : false,
+            '--github' => $this->option('github'),
+            '--organization' => $this->option('organization'),
+            '--jet' => $this->option('jet'),
+            '--stack' => $this->option('stack'),
+            '--teams' => $this->option('teams'),
+            '--prompt-jetstream' => $this->option('prompt-jetstream'),
+            '--force' => $this->option('force'),
+        ])->filter(function ($item) {
+            if ($item != false || $item != null || $item != '') {
+                return true;
+            }
+        });
+
+        // Merge the options with the default options.
+        // Filter any that are false, null or empty.
+        // Iteate the options and add them to the selected array converting them to a string of key and value.
+        $defaultOptions
+            ->merge($options)
+            ->filter(function ($item) {
+                if ($item != false || $item != null || $item != '') {
+                    return true;
+                }
+            })
+            ->each(function ($item, $key) use (&$selected) {
+                $selected[] = gettype($item) == "boolean" ? $key : $key . '=' . $item;
+            });
+
+        $this->laravelOptions = implode(' ', $selected);
+
+        $this->forced = in_array('--force', $selected);
     }
 
     /**
@@ -43,8 +93,13 @@ trait Configuration
             exit;
         }
 
-        if (! $this->config['install-location']) {
+        if (! key_exists('install-location', $this->config)) {
             $this->error('The config file is missing the install-location. Please set an install path.');
+            exit;
+        }
+
+        if (! key_exists('laravel-options', $this->config)) {
+            $this->error('The config file is missing the laravel-options. Please set laravel options.');
             exit;
         }
 
@@ -97,5 +152,18 @@ trait Configuration
         }
 
         $this->info('Configuration check passed.');
+    }
+
+    public function settingsCheck()
+    {
+        if (
+            $this->forced == false &&
+            Storage::exists(Str::replaceFirst(config('filesystems.disks.local.root'), '', $this->applicationLocation))
+        ) {
+            $this->error('The application already exists. Please run `laravel-installer-plus ' . $this->name . ' --force` to set up.');
+            exit;
+        }
+
+        $this->info('Settings check passed.');
     }
 }

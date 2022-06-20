@@ -7,6 +7,8 @@ use App\Traits\Execute;
 use App\Traits\Packages;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
+use RuntimeException;
+use Symfony\Component\Process\Process;
 
 class NewCommand extends Command
 {
@@ -14,10 +16,11 @@ class NewCommand extends Command
     use Packages;
     use Execute;
 
-    public $config;
-    public $packagesComposer;
-    public $packagesNpm;
     public $name;
+    public $config;
+    public $laravelOptions;
+    public $installLocation;
+    public $applicationLocation;
 
     /**
      * The signature of the command.
@@ -25,7 +28,17 @@ class NewCommand extends Command
      * @var string
      */
     protected $signature = 'new
-                            {name : Name of the application}';
+                            {name : Name of the application}
+                            {--dev : Create a development environment}
+                            {--git : Initialize a git repository}
+                            {--branch= : Initialize the application with the given branch}
+                            {--github : Create a new repository on GitHub}
+                            {--organization= : The GitHub under the given organization}
+                            {--jet : Installs the Laravel Jetstream scaffolding}
+                            {--stack= : The Jetstream stack that should be installed}
+                            {--teams : Indicates whether Jetstream should be scaffolded with team support}
+                            {--prompt-jetstream : Issues a prompt to determine if Jetstream should be installed}
+                            {--force : Overwrite existing files}';
 
 
     /**
@@ -42,36 +55,60 @@ class NewCommand extends Command
      */
     public function handle()
     {
+        // Run Pre Checks
         $this->getConfiguration();
         $this->checkConfiguration();
+        $this->setup();
+        $this->settingsCheck();
 
         $this->collectPackages();
 
-        $this->info("Creating a new application in: " . $this->config['install-location']);
+        $this->info("Creating a new application in: " . $this->installLocation);
 
         // Pre Install Commands
         $this->runCommands('composer', 'pre-install');
         $this->runCommands('npm', 'pre-install');
 
+        $this->info(PHP_EOL . "
+         ___         _        _ _ _             _                          _
+        |_ _|_ _  __| |_ __ _| | (_)_ _  __ _  | |   __ _ _ _ __ ___ _____| |
+         | || ' \(_-<  _/ _` | | | | ' \/ _` | | |__/ _` | '_/ _` \ V / -_) |
+        |___|_||_/__/\__\__,_|_|_|_|_||_\__, | |____\__,_|_| \__,_|\_/\___|_|
+                                        |___/
+        " . PHP_EOL . PHP_EOL);
+
         $this->installLaravel();
 
-        // Post Install Commands
+        // // Post Install Commands
         $this->runCommands('composer', 'post-install');
         $this->runCommands('npm', 'post-install');
 
-
-        // Pre Package Commands
+        // // Pre Package Commands
         $this->runCommands('composer', 'pre-package');
         $this->runCommands('npm', 'pre-package');
+
+        $this->info(PHP_EOL . "
+         ___         _        _ _ _             ___         _
+        |_ _|_ _  __| |_ __ _| | (_)_ _  __ _  | _ \__ _ __| |____ _ __ _ ___ ___
+         | || ' \(_-<  _/ _` | | | | ' \/ _` | |  _/ _` / _| / / _` / _` / -_|_-<
+        |___|_||_/__/\__\__,_|_|_|_|_||_\__, | |_| \__,_\__|_\_\__,_\__, \___/__/
+                                        |___/                       |___/
+        " . PHP_EOL . PHP_EOL);
 
         $this->installPackages('composer');
         $this->installPackages('npm');
 
-        // Post Package Commands
+        // // Post Package Commands
         $this->runCommands('composer', 'post-package');
         $this->runCommands('npm', 'post-package');
 
-        return $this->info("Application created successfully.");
+        return $this->info(PHP_EOL . "
+         _  _                        ___         _ _             _
+        | || |__ _ _ __ _ __ _  _   / __|___  __| (_)_ _  __ _  | |
+        | __ / _` | '_ \ '_ \ || | | (__/ _ \/ _` | | ' \/ _` | |_|
+        |_||_\__,_| .__/ .__/\_, |  \___\___/\__,_|_|_||_\__, | (_)
+                  |_|  |_|   |__/                        |___/
+        " . PHP_EOL . PHP_EOL);
     }
 
     /**
@@ -81,10 +118,8 @@ class NewCommand extends Command
      */
     public function installLaravel()
     {
-        $this->task("Install application in {$this->config['install-location']}", function () {
-            exec('cd ' . $this->config['install-location'] .  ' && laravel new ' . $this->name, $output, $result);
-
-            return true;
+        $this->task("Installing application in {$this->installLocation}", function () {
+            $this->executeCommand('laravel new ' . $this->name . ' ' . $this->laravelOptions, true);
         });
     }
 
