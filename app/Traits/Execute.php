@@ -10,7 +10,7 @@ trait Execute
      * @param string $command
      * @param bool $location
      *
-     * @return mixed
+     * @return mixed $output
      */
     public function executeCommand($command, $location = false)
     {
@@ -21,7 +21,8 @@ trait Execute
         }
 
         exec('cd ' . $path .  ' && ' . $command, $output, $result);
-        return $result;
+        
+        return $output;
     }
 
     /**
@@ -30,10 +31,12 @@ trait Execute
      * @param array $commands
      * @param bool $location true=install-location | false=application-location
      *
-     * @return void
+     * @return mixed $output
      */
     public function executeCommands($commands, $location = false)
     {
-        $result = $this->executeCommand(implode(' && ', $commands), $location);
+        $output = $this->executeCommand(implode(' && ', $commands), $location);
+
+        return $output;
     }
 }
