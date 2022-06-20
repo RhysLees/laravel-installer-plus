@@ -18,7 +18,7 @@
 - [Composer](https://getcomposer.org/download).
 - [PHP](https://www.php.net/) 8.0 or higher.
 
-
+> IMPORTANT: This Package assumes that you have laravel-installer, composer and php installed globally.
 ---
 
 # Installation
@@ -28,7 +28,7 @@ $ composer global require rhyslees/laravel-installer-plus
 $ laravel-installer-plus install
 ```
 
-Your configuration is stored in `~/.laravel-installer-plus/config.json`
+Your configuration is stored in `$HOME/.laravel-installer-plus/config.json`
 
 ---
 
@@ -36,10 +36,53 @@ Your configuration is stored in `~/.laravel-installer-plus/config.json`
 
 ---
 
-## Install Location
+## Options
+
+All Laravel Installer options are included in Laravel Installer plus so you can optionally pass them.
+
+```name : Name of the application (required)
+    --dev : Create a development environment
+    --git : Initialize a git repository
+    --branch : Initialize the application with the given branch
+    --github : Create a new repository on GitHub
+    --organization : The GitHub under the given organization
+    --jet : Installs the Laravel Jetstream scaffolding
+    --stack : The Jetstream stack that should be installed
+    --teams : Indicates whether Jetstream should be scaffolded with team support
+    --prompt-jetstream : Issues a prompt to determine if Jetstream should be installed
+    --force : Overwrite existing files
+```
+
+> NOTE: If you use options such as `--git` for every appliction you can add them to `laravel-options` in the config and they will be appended to the command so you dont need to specifiy them manually (see example below).
+
+```json
+"laravel-options": {
+    "--branch": "green",
+    "--git": true
+},
+```
+
+---
+
+
+## Project Install Location
 - The location where the laravel application will be installed.
-- The default is `~/Websites/`
-- You can change this in the config.json file.
+
+If you have a directory where all projects exist, you can set it `install-location` in `$HOME/.laravel-installer-plus/config.json`. This will then run the install commands to that directory no matter where you run the command from.
+
+When changing this remember you only specify the path relative to your home directory.
+
+> macOS / GNU / Linux Distributions: `$HOME/`
+
+For example if you use a folder named `Projects` in your home directory, you can set the install location to `Projects`.
+
+```json
+"install-location": "Projects"
+```
+
+Leaving this option as an empty string will use the current directory.
+
+> NOTE: If you are unsure if you have set this correctly, you can check by running `laravel-installer-plus location {name}` which will output where it would install the application.
 
 ---
 
@@ -157,9 +200,9 @@ The commands that will be run after the installation of packages.
 
 ####TODO
 
-- [ ] Make it posible to install from current working directory.
-- [ ] Move away from using laravel/installer to install laravel.
+- [x] Make it posible to install from current working directory.
 - [ ] Add support for manipluating files such as .env, app.css etc.
+- [ ] Move away from using laravel/installer to install laravel.
 
 
 # License
