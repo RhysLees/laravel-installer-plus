@@ -155,6 +155,13 @@ The commands that will be run after the installation of packages.
 
 ---
 
+####TODO
+
+- [ ] Make it posible to install from current working directory.
+- [ ] Move away from using laravel/installer to install laravel.
+- [ ] Add support for manipluating files such as .env, app.css etc.
+
+
 # License
 
 Laravel Installer Plus is an open-source software licensed under the MIT license.
