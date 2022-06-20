@@ -1,7 +1,7 @@
 {
     "name": "rhyslees/laravel-installer-plus",
     "description": "Laravel Installer Plus",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
+    "keywords": ["laravel", "laravel zero", "console", "cli", "laravel-installer-plus", "laravel-installer"],
     "homepage": "https://rhyslees.co.uk/laravel-installer-plus",
     "type": "project",
     "license": "MIT",
