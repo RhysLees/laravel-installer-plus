@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Traits\Configuration;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
 class InstallCommand extends Command
@@ -15,7 +16,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'install';
+    protected $signature = 'install {--force : Overwrite existing files}';
 
     /**
      * The description of the command.
@@ -31,6 +32,13 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        if ($this->option('force')) {
+            $this->warn('Replacing existing config file. (A backup will be created)');
+            if ($this->confirm('Do you wish to continue?')) {
+                Storage::disk('config')->move('config.json', 'config.json.bak');
+            }
+        }
+
         $this->getConfiguration();
         $this->checkConfiguration();
 
