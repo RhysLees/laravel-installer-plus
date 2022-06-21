@@ -146,9 +146,7 @@ Leaving this option as an empty string will use the current directory.
 
 ## Repositories
 
-If you need to require a private package, first add the package to the `packages->composer` array. You can add the repository to the `repositories` array.
-
-> NOTE: currently only suppor
+If you need to require a private package, first add the package to the `packages->composer` array. You can then add the repository to the `repositories` array.
 
 ```json
 "repositories": [
