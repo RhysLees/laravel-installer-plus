@@ -18,6 +18,7 @@ class NewCommand extends Command
 
     public $name;
     public $config;
+    public $packages;
     public $laravelOptions;
     public $installLocation;
     public $applicationLocation;
@@ -95,6 +96,8 @@ class NewCommand extends Command
                                         |___/                       |___/
         " . PHP_EOL . PHP_EOL);
 
+        $this->installRepositories();
+
         $this->installPackages('composer');
         $this->installPackages('npm');
 
@@ -136,6 +139,27 @@ class NewCommand extends Command
             $this->packages[$manager]->each(function ($package) {
                 $this->task("Install {$package['name']}", function () use ($package) {
                     $this->executeCommands($package['commands']);
+
+                    return true;
+                });
+            });
+        }
+    }
+
+    /**
+     * Install Repositories.
+     *
+     *
+     * @return void
+     */
+    public function installRepositories()
+    {
+        if (count($this->packages['repositories']) > 0) {
+            $this->info("Installing package repositories...");
+            $this->packages['repositories']->each(function ($repo) {
+                $name = $this->packages['composer']->firstWhere('key', $this->packages['repositories']->first()['key'])['name'];
+                $this->task("Install {$name} Repository", function () use ($repo) {
+                    $this->executeCommand('composer config repositories.' . $repo['name'] . ' ' . $repo['type'] . ' ' . $repo['url']);
 
                     return true;
                 });

@@ -144,6 +144,56 @@ Leaving this option as an empty string will use the current directory.
 
 ---
 
+## Repositories
+
+If you need to require a private package, first add the package to the `packages->composer` array. You can add the repository to the `repositories` array.
+
+> NOTE: currently only suppor
+
+```json
+"repositories": [
+    {
+        "key": "",
+        "name": "",
+        "type": "",
+        "url": ""
+    }
+],
+```
+
+`key` must match the package key.
+`name` is the name of the package (see example below).
+`type` is the type of repository.
+`url` is the url of the repository.
+
+With VCS:
+```json
+"repositories": [
+    {
+        "key": "spatie-laravel-ray",
+        "name": "laravel-ray",
+        "type": "vcs",
+        "url": "https://github.com/spatie/laravel-ray"
+    }
+],
+```
+
+With Path (symlink):
+```json
+"repositories": [
+    {
+        "key": "spatie-laravel-ray",
+        "name": "laravel-ray",
+        "type": "path",
+        "url": "../../Packages/spatie/laravel-ray"
+    }
+],
+```
+
+> NOTE: when using path ensure the url is relative to your project directory.
+
+---
+
 ## Commands
 - The commands are executed in the order you specify.
 - You can execute commands with composer and npm.

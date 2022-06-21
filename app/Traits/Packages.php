@@ -15,6 +15,10 @@ trait Packages
     {
         $this->info('Collecting packages...');
 
+        // Get composer repositories.
+        $repositories = Collection::wrap($this->config['repositories'])
+                                        ->whereInStrict('key', $this->config['packages-to-install']['composer']);
+
         // Get composer packages.
         $packagesComposer = Collection::wrap($this->config['packages']['composer'])
                                         ->whereInStrict('key', $this->config['packages-to-install']['composer']);
@@ -34,6 +38,7 @@ trait Packages
         }
 
         $this->packages = Collection::wrap([
+            'repositories' => $repositories,
             'composer' => $packagesComposer,
             'npm' => $packagesNpm,
         ]);
