@@ -184,7 +184,11 @@ class NewCommand extends Command
                     $location = true;
                 }
 
-                $this->executeCommands($this->config['commands'][$manager][$method], $location);
+                $command = $this->config['commands'][$manager][$method];
+
+                $command = Str::replace($command, '$name', $this->name);
+
+                $this->executeCommands($command, $location);
 
                 return true;
             });
