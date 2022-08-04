@@ -196,6 +196,18 @@ With Path (symlink):
 - The commands are executed in the order you specify.
 - You can execute commands with composer and npm.
 
+You use use `$name` and `$nameSnake` variables in your commands which can be useful for example if you want to create a database.
+
+```json
+"mysql -u root -e 'create database $nameSnake'"
+``` 
+which would become 
+```json
+"mysql -u root -e 'create database my_app'"
+```
+
+<br>
+
 > NOTE: If you wish to run sudo commands you will be prompted for your password at each command step i.e pre-install, post-install, pre-package, post-package.
 
 ### Commands Example

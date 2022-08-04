@@ -80,11 +80,11 @@ class NewCommand extends Command
 
         $this->installLaravel();
 
-        // // Post Install Commands
+        // Post Install Commands
         $this->runCommands('composer', 'post-install');
         $this->runCommands('npm', 'post-install');
 
-        // // Pre Package Commands
+        // Pre Package Commands
         $this->runCommands('composer', 'pre-package');
         $this->runCommands('npm', 'pre-package');
 
@@ -101,7 +101,7 @@ class NewCommand extends Command
         $this->installPackages('composer');
         $this->installPackages('npm');
 
-        // // Post Package Commands
+        // Post Package Commands
         $this->runCommands('composer', 'post-package');
         $this->runCommands('npm', 'post-package');
 
@@ -184,11 +184,22 @@ class NewCommand extends Command
                     $location = true;
                 }
 
-                $command = $this->config['commands'][$manager][$method];
+                $commands = $this->config['commands'][$manager][$method];
+                $compiledCommands = [];
 
-                $command = Str::replace($command, '$name', $this->name);
+                foreach ($commands as $command) {
+                    $cmd = $command;
+                    if (Str::contains($cmd, '$nameSnake')) {
+                        $cmd = Str::replace('$nameSnake', Str::of($this->name)->replace('-', '_')->lower(), $cmd);
+                    }
+                    if (Str::contains($cmd, '$name')) {
+                        $cmd = Str::replace('$name', $this->name, $cmd);
+                    }
 
-                $this->executeCommands($command, $location);
+                    $compiledCommands[] = $cmd;
+                }
+
+                $this->executeCommands($compiledCommands, $location);
 
                 return true;
             });
